@@ -6,10 +6,12 @@ import requests
 import random
 import decimal
 import matplotlib.pyplot as plt
+import scipy.stats as sp
+
 
 token = '427a4fb2370419339bc0a94fcb9d8fb8'
 url = 'http://api.openweathermap.org/data/2.5/weather?'
-num_cities = 1
+num_cities = 2
 
 
 lat = []
@@ -59,6 +61,7 @@ weather_dict = {'lat': lat,
 weather_df = pd.DataFrame(weather_dict)
 north_df = weather_df[weather_df['lat'] >= 0]
 south_df = weather_df[weather_df['lat'] < 0]
+
 
 fig = plt.figure
 
@@ -115,7 +118,7 @@ plt.xlim(-90,90)
 plt.ylim(0,100)
 plt.show()
 
-weather_df.to_csv('output.csv')
+weather_df.to_csv('weather_data.csv')
 
 
 
