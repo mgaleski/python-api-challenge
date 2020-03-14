@@ -11,7 +11,7 @@ import scipy.stats as sp
 
 token = '427a4fb2370419339bc0a94fcb9d8fb8'
 url = 'http://api.openweathermap.org/data/2.5/weather?'
-num_cities = 2
+num_cities = 1
 
 
 lat = []
@@ -41,6 +41,7 @@ for number in range(num_cities):
     print(f'{number+1}. {city_name.upper()}, {country_code.upper()}')
     request_url = url + f'q={city_name},{country_code}&units={units}&appid={token}'
     request = requests.get(request_url).json()
+    test = requests.get(request_url)
     temp.append(request["main"]["temp"])
     humidity.append(request["main"]['humidity'])
     cloudiness.append(request['clouds']['all'])
@@ -59,16 +60,17 @@ weather_dict = {'lat': lat,
                 'wind speed (mph)': wind_speed}
 
 weather_df = pd.DataFrame(weather_dict)
+weather_df.to_csv('weather_data.csv')
+
 north_df = weather_df[weather_df['lat'] >= 0]
 south_df = weather_df[weather_df['lat'] < 0]
 
-
-fig = plt.figure
 
 
 '''
 First subplot comparing temp and latitude
 '''
+plt.figure(figsize=(10,10))
 plt.subplot(2,2,1)
 plt.scatter(weather_df['lat'],weather_df['temp (f)'])
 plt.grid(True)
@@ -116,9 +118,7 @@ plt.xlabel('Latitude (degrees)')
 plt.ylabel('Wind Speed (mph)')
 plt.xlim(-90,90)
 plt.ylim(0,100)
-plt.show()
-
-weather_df.to_csv('weather_data.csv')
+plt.savefig('results.png')
 
 
 
