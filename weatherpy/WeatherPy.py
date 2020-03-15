@@ -11,7 +11,7 @@ import scipy.stats as sp
 
 token = '427a4fb2370419339bc0a94fcb9d8fb8'
 url = 'http://api.openweathermap.org/data/2.5/weather?'
-num_cities = 1
+num_cities = 20
 
 
 lat = []
@@ -41,8 +41,7 @@ for number in range(num_cities):
     print(f'{number+1}. {city_name.upper()}, {country_code.upper()}')
     request_url = url + f'q={city_name},{country_code}&units={units}&appid={token}'
     request = requests.get(request_url).json()
-    test = requests.get(request_url)
-    temp.append(request["main"]["temp"])
+    temp.append(request['main']['temp'])
     humidity.append(request["main"]['humidity'])
     cloudiness.append(request['clouds']['all'])
     wind_speed.append(request['wind']['speed'])
@@ -64,7 +63,6 @@ weather_df.to_csv('weather_data.csv')
 
 north_df = weather_df[weather_df['lat'] >= 0]
 south_df = weather_df[weather_df['lat'] < 0]
-
 
 
 '''
