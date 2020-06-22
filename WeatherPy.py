@@ -41,12 +41,21 @@ for number in range(num_cities):
     print(f'{number+1}. {city_name.upper()}, {country_code.upper()}')
     request_url = url + f'q={city_name},{country_code}&units={units}&appid={token}'
     request = requests.get(request_url).json()
-    temp.append(request['main']['temp'])
-    humidity.append(request["main"]['humidity'])
-    cloudiness.append(request['clouds']['all'])
-    wind_speed.append(request['wind']['speed'])
-    cities.append(city_name)
-    countries.append(country_code)
+    try:
+        temp.append(request['main']['temp'])
+        humidity.append(request["main"]['humidity'])
+        cloudiness.append(request['clouds']['all'])
+        wind_speed.append(request['wind']['speed'])
+        cities.append(city_name)
+        countries.append(country_code)
+    except KeyError:
+        print('Error')
+        temp.append('')
+        humidity.append('')
+        cloudiness.append('')
+        wind_speed.append('')
+        cities.append('')
+        countries.append('')
 
 
 weather_dict = {'lat': lat,
@@ -90,7 +99,7 @@ plt.xlabel('Latitude (degrees)')
 plt.ylabel('Humidity (%)')
 plt.xlim(-90,90)
 plt.ylim(0,100)
-
+plt.show()
 
 '''
 Third subplot comparing latitude and cloudiness
@@ -103,6 +112,7 @@ plt.xlabel('Latitude (degrees)')
 plt.ylabel('Cloudiness (%)')
 plt.xlim(-90,90)
 plt.ylim(0,100)
+plt.show()
 
 
 '''
@@ -117,7 +127,7 @@ plt.ylabel('Wind Speed (mph)')
 plt.xlim(-90,90)
 plt.ylim(0,100)
 plt.savefig('results.png')
-
+plt.show()
 
 
 
